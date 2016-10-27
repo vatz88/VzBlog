@@ -34,9 +34,15 @@ app.get('/profile.js', function (req, res) {
 });
 
 // testing template with json
-var articleOne = {
-  title: "Article one",
-  content: "This is article one."
+var articles = {
+  'articleOne' : {
+    title : "Article one",
+    content : "This is article one"
+  },
+  'articleaTwo' : {
+    title : "Article two",
+    content : "This is article two"
+  }
 };
 
 var funcCreateTemplate = function(articleData){
@@ -58,8 +64,9 @@ var funcCreateTemplate = function(articleData){
   `;
   return pageData;
 };
-app.get('/articleOne',function(req,res){
-  res.send(funcCreateTemplate(articleOne));
+app.get('/:articleName',function(req,res){
+  var articleName = req.params.articleName;
+  res.send(funcCreateTemplate(articles[articleName]));
 });
 
 app.listen(8080, function () {
