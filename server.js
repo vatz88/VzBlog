@@ -6,19 +6,62 @@ var app = express();
 app.use(morgan('combined'));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+  res.sendFile(path.join(__dirname, 'ui', 'home', 'home.html'));
 });
-app.get('/ui/vz_style.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'vz_style.css'));
+app.get('/home.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'home', 'home.css'));
 });
-app.get('/ui/vz_script.js', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'vz_script.js'));
+app.get('/home.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'home', 'home.js'));
+});
+app.get('/dashboard', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'dashboard', 'dashboard.html'));
+});
+app.get('/dashboard.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'dashboard', 'dashboard.css'));
+});
+app.get('/dashboard.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'dashboard', 'dashboard.js'));
+});
+app.get('/profile', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'profile', 'profile.html'));
+});
+app.get('/profile.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'profile', 'profile.css'));
+});
+app.get('/profile.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'profile', 'profile.js'));
 });
 
-app.get('/article-one', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'articles', 'article-one.html'));
+// testing template with json
+var articleOne = {
+  title: "Article one",
+  content: "This is article one."
+};
+
+var funcCreateTemplate = function(articleData){
+  var title = articleData.title;
+  var content = articleData.content;
+  var pageData = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <title>${title}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+      </head>
+      <body>
+        ${content}
+      </body>
+    </html>
+  `;
+  return pageData;
+};
+app.get('/articleOne',function(req,res){
+  res.send(funcCreateTemplate(articleOne));
 });
 
 app.listen(8080, function () {
-  console.log(`VzBlog running! on port 8080`);
+  console.log(`VzBlog running on port 8080!`);
 });
