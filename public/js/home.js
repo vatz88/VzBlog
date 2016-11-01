@@ -1,0 +1,1 @@
+$('#blogNavButton').addClass('active');

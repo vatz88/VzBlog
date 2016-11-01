@@ -12,9 +12,12 @@
     "url": "git+https://github.com/VaTz88/imad-2016-app.git"
   },
   "author": "Vatsal Joshi",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VaTz88/imad-2016-app/issues"
   },
-  "homepage": "https://github.com/VaTz88/imad-2016-app#readme"
+  "homepage": "https://github.com/VaTz88/imad-2016-app#readme",
+  "dependencies": {
+    "ejs": "^2.5.2"
+  }
 }
