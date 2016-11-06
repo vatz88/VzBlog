@@ -10,7 +10,6 @@ app.set('views', 'views');
 
 app.use(express.static('public'));
 app.use(require('./routes/login'));
-app.use(require('./routes/loginUser'));
 app.use(require('./routes/home'));
 app.use(require('./routes/profile'));
 app.use(require('./routes/dashboard'));

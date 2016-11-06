@@ -15,7 +15,13 @@
 
 	<main>
 		<div class="container">
-            <form method="POST" action="/loginUser">
+		<% if(locals.invalid){ %>
+			<div class="alert alert-danger alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  			Email id / Password incorrect. Please try again.
+			</div>
+		<% } %>
+            <form method="POST" action="/login">
 				<div class="form-group">
 					<div class="form-group">
                         <label for="email">Email address</label>
