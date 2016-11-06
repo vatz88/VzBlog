@@ -24,7 +24,7 @@ router.get('/api/articles/all', function (req, res) {
             client.query('SELECT * FROM articles, user_details WHERE user_details.user_id = articles.user_id', function (err, result) {
                 done();
                 if (err) {
-                    res.send('error running query', err.toString());
+                    res.status(500).send(err.toString());
                 }
                 res.json(result.rows);
             });

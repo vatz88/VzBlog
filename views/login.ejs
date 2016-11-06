@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- CSS -->
+    <% include templates/head.ejs %>
+	<link href="/css/login.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<header>
+		<% include templates/navbar.ejs %>
+	</header>
+
+	<main>
+		<div class="container">
+            <form method="POST" action="/loginUser">
+				<div class="form-group">
+					<div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="example@abc.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    </div>
+				</div>
+				<button type="submit" class="btn btn-default">Login / Sign up</button>
+			</form>
+		</div>
+	</main>
+
+	<% include templates/footer.ejs %>
+
+	<!-- JavaScript -->
+	<% include templates/defaultScripts.ejs %>
+	<script src="/js/login.js"></script>
+
+</body>
+
+</html>

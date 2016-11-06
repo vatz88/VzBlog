@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/VaTz88/imad-2016-app#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "crypto": "0.0.3",
     "ejs": "^2.5.2",
     "express": "^4.14.0",
     "morgan": "^1.7.0",
