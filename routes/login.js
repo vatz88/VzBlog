@@ -2,20 +2,10 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
-var pg = require('pg');
+var pool = app.get('pool');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
-
-var config = {
-    user: 'vatz88',
-    host: 'db.imad.hasura-app.io',
-    database: 'vatz88',
-    password: process.env.DB_PASSWORD,
-    port: '5432'
-};
-
-var pool = new pg.Pool(config);
 
 function hash(password) {
     var key = crypto.pbkdf2Sync(password, 'VzSalt', 10000, 512, 'sha512');
@@ -38,10 +28,12 @@ router.post('/login', function (req, res) {
                 if (result.rows.length == 1) {
                     // user exist
                     if (password == result.rows[0].password) {
+                        // set session
+                        req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
                         res.redirect('/');
                     } else {
-                        res.locals.invalid = "varification failed";
-                        res.render('login', {
+                        res.locals.msg = "Email id / Password incorrect. Please try again.";
+                        res.status(403).render('login', {
                             pageTitle: "login"
                         });
                     }
@@ -58,12 +50,37 @@ router.post('/login', function (req, res) {
             });
         }
     });
+});
 
+router.get('/test-session', function (req, res) {
+    if (req.session && req.session.auth && req.session.auth.userId) {
+        res.status(200).send("Hi, user id " + req.session.auth.userId);
+    } else {
+        res.status(200).send("Session expired, please log in again");
+    }
 });
 
 router.get('/login', function (req, res) {
+    if (req.session && req.session.auth && req.session.auth.userId) {
+        res.redirect('/');
+    } else {
+        res.render('login', {
+            pageTitle: "Login",
+            userName: false
+        });
+    }
+});
+
+router.get('/logout', function (req, res) {
+    if (req.session && req.session.auth && req.session.auth.userId) {
+        delete req.session.auth;
+        res.locals.msg = "Successfully logged out.";
+    } else {
+        res.locals.msg = "No active session";
+    }
     res.render('login', {
-        pageTitle: "login"
+        pageTitle: "login",
+        userName: false
     });
 });
 

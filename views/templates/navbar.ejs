@@ -1,13 +1,13 @@
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-		<% if( pageTitle != 'login'){ %>
+		<% if( userName ){ %>
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
 		<% } %>
 			<a class="navbar-brand" href="/">VzBlog</a>
 		</div>
 		
-		<% if( pageTitle != 'login'){ %>
+		<% if( userName ){ %>
 		<div class="collapse navbar-collapse" id="mainNavBar">
 			<ul class="nav navbar-nav">
 				<li id="blogNavButton"><a href="/">Blogs</a></li>
@@ -19,10 +19,11 @@
 				<button type="submit" class="btn btn-default">Search</button>
 			</form>
     		<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User<span class="caret"></span></a>
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= userName %><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="/profile">Profile</a></li>
 						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/logout">Log Out</a></li>
 					</ul>
 				</li>
 			</ul>

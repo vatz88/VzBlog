@@ -1,16 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var pg = require('pg');
-
-var config = {
-    user: 'vatz88',
-    host: 'db.imad.hasura-app.io',
-    database: 'vatz88',
-    password: process.env.DB_PASSWORD,
-    port: '5432'
-};
-
-var pool = new pg.Pool(config);
+var pool = app.get('pool');
 
 // routes
 
@@ -78,15 +68,17 @@ router.get('/api/searchBlog', function (req, res) {
         else {
             var query = '';
             for (var i = 0, len = keywords.length; i < len; i++) {
-                query = query + "(\
-                    SELECT articles.name, articles.article_content, user_details.user_id, user_details.first_name, user_details.last_name \
-                    FROM articles, user_details \
-                    WHERE user_details.user_id = articles.user_id AND ( \
-                        UPPER(articles.name) like UPPER('%" + keywords[i] + "%') OR \
-                        UPPER(user_details.first_name) like UPPER('%" + keywords[i] + "%') OR \
-                        UPPER(user_details.last_name) like UPPER('%" + keywords[i] + "%') \
-                   ) \
-                )";
+                query = query +
+                    "(" +
+                    "SELECT articles.name, articles.article_content, user_details.user_id, user_details.first_name, user_details.last_name " +
+                    "FROM articles, user_details " +
+                    "WHERE user_details.user_id = articles.user_id AND " +
+                    "( " +
+                    "UPPER(articles.name) like UPPER('%" + keywords[i] + "%') OR " +
+                    "UPPER(user_details.first_name) like UPPER('%" + keywords[i] + "%') OR " +
+                    "UPPER(user_details.last_name) like UPPER('%" + keywords[i] + "%')" +
+                    ")" +
+                    ")";
                 if (i != len - 1) {
                     query = query + 'UNION';
                 }

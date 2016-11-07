@@ -15,24 +15,24 @@
 
 	<main>
 		<div class="container">
-		<% if(locals.invalid){ %>
-			<div class="alert alert-danger alert-dismissible" role="alert">
+		<% if(locals.msg){ %>
+			<div class="alert alert-info alert-dismissible" role="alert">
   			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  			Email id / Password incorrect. Please try again.
+  			<%= locals.msg %>
 			</div>
 		<% } %>
             <form method="POST" action="/login">
 				<div class="form-group">
 					<div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="example@abc.com">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Your email id here" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="At least 4 characters long" pattern=".{4,}" required title="Password must be at least 4 characters long">
                     </div>
 				</div>
-				<button type="submit" class="btn btn-default">Login / Sign up</button>
+				<button type="submit" class="btn btn-default">Log In / Sign Up</button>
 			</form>
 		</div>
 	</main>
