@@ -34,7 +34,8 @@ router.post('/login', function (req, res) {
                     } else {
                         res.locals.msg = "Email id / Password incorrect. Please try again.";
                         res.status(403).render('login', {
-                            pageTitle: "login"
+                            pageTitle: "login",
+                            userName: false
                         });
                     }
                 } else {
