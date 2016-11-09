@@ -28,8 +28,8 @@ app.use(session({
 }));
 
 app.use(express.static('public'));
-app.use(require('./routes/login'));
 app.use(require('./routes/api'));
+app.use(require('./routes/login'));
 app.use(require('./routes/home'));
 app.use(require('./routes/profile'));
 app.use(require('./routes/dashboard'));

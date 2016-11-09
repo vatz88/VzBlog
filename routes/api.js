@@ -16,7 +16,7 @@ router.get('/api/user/:id', function (req, res) {
                 if (err) {
                     res.status(500).send(err.toString());
                 }
-                res.json(result.rows);
+                res.status(200).json(result.rows);
             });
         }
     });
@@ -34,7 +34,7 @@ router.get('/api/articles/all', function (req, res) {
                 if (err) {
                     res.status(500).send(err.toString());
                 }
-                res.json(result.rows);
+                res.status(200).json(result.rows);
             });
         }
     });
@@ -52,7 +52,7 @@ router.get('/api/articles/user/:user', function (req, res) {
                 if (err) {
                     res.status(500).send(err.toString());
                 }
-                res.json(result.rows);
+                res.status(200).json(result.rows);
             });
         }
     });
@@ -70,7 +70,7 @@ router.get('/api/articles/tag/:tag', function (req, res) {
                 if (err) {
                     res.status(500).send(err.toString());
                 }
-                res.json(result.rows);
+                res.status(200).json(result.rows);
             });
         }
     });
@@ -106,7 +106,7 @@ router.get('/api/searchBlog', function (req, res) {
                 if (err) {
                     console.log('error running query', err);
                 }
-                res.json(result.rows);
+                res.status(200).json(result.rows);
             });
         }
     });
