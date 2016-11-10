@@ -34,6 +34,6 @@ app.use(require('./routes/home'));
 app.use(require('./routes/profile'));
 app.use(require('./routes/dashboard'));
 
-app.listen(8080, function () {
+app.listen(process.env.PORT || 8080, function () {
   console.log("VzBlog running on port 8080!");
 });
