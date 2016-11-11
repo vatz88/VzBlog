@@ -38,13 +38,22 @@ router.post('/login', function (req, res) {
                             userName: false
                         });
                     }
-                } else {
+                } else if (result.rows.length == 0) {
                     // create user
-                    client.query('INSERT INTO "user" ("email_id", "password") VALUES ($1, $2)', [email, password], function (err, result) {
+                    var newusername = email.split('@')[0];
+                    client.query('INSERT INTO "user" ("email_id", "password", "username") VALUES ($1, $2, $3)', [email, password, newusername], function (err, result) {
                         if (err) {
                             res.status(500).send(err.toString());
                         }
-                        res.send('user created');
+                        client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
+                            client.query('INSERT INTO "user_details" ("user_id") VALUES ($1)', [result.rows[0].user_id], function (err, result) {
+                                if (err) {
+                                    res.status(500).send(err.toString());
+                                }
+                            });
+                            req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
+                            res.redirect('/profile');
+                        });
                     });
                 }
                 done();
