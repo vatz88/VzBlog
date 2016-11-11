@@ -17,16 +17,16 @@ router.get('/profile', function (req, res) {
                     done();
                     if (err) {
                         res.status(500).send(err.toString());
+                    } else {
+                        res.status(200).render('profile', {
+                            pageTitle: "Profile",
+                            userName: result.rows[0].username,
+                            first_name: result.rows[0].first_name,
+                            last_name: result.rows[0].last_name,
+                            bio: result.rows[0].bio,
+                            email_id: result.rows[0].email_id,
+                        });
                     }
-                    res.status(200).render('profile', {
-                        pageTitle: "Profile",
-                        userName: req.session.auth.username,
-                        first_name: result.rows[0].first_name,
-                        last_name: result.rows[0].last_name,
-                        bio: result.rows[0].bio,
-                        email_id: result.rows[0].email_id,
-                        username: result.rows[0].username
-                    });
                 });
             }
         });
@@ -54,8 +54,10 @@ router.post('/profile', function (req, res) {
                             done();
                             if (err) {
                                 res.status(500).send(err.toString());
+                            } else {
+                                req.session.auth.username = req.body.username;
+                                res.status(200).send("Your profile has been updated.");
                             }
-                            res.status(200).send("Your profile has been updated.");
                         });
                     }
                 });

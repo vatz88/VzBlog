@@ -3,8 +3,8 @@
 
 <head>
 	<!-- CSS -->
-    <% include templates/head.ejs %>
-	<link href="/css/dashboard.css" rel="stylesheet">
+	<% include templates/head.ejs %>
+		<link href="/css/dashboard.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,15 +15,78 @@
 
 	<main>
 		<div class="container">
-			<div>Dashboard</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<%= userName %> - Dashboard</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<h4>Atricles published by you:</h4>
+						</div>
+					</div>
+					<div>
+						<ul class="list-group">
+							<% allArticleTitle.forEach(function(item) { %>
+								<li class="list-group-item">
+									<%= item.article_name %>
+								</li>
+								<% }); %>
+						</ul>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div class="row">
+						<span class="col-sm-8">Total articles published by you <span class="badge"><%= totalArticles %></span></span>
+						<span class="col-sm-4 text-right"><button id="newArticle-btn" class="btn btn-primary" type="button">New article</button></span>
+					</div>
+				</div>
+				<!-- /panel -->
+			</div>
+			<!-- alert msg -->
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<span id="alert-msg"></span>
+			</div>
+			<!-- form -->
+			<form class="form-horizontal" id="newArticle-form" method="POST" action="/dashboard">
+				<div class="form-group">
+					<label for="article_name" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="article_name" placeholder="Article Title" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="article_content" class="col-sm-2 control-label">Content</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" rows="14" name="article_content" placeholder="This article is about..." required></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="article_content" class="col-sm-2 control-label">Tags</label>
+					<div class="col-sm-10">
+						<label class="radio-inline"><input type="radio" name="tag" value="Technology">Technology</label>
+						<label class="radio-inline"><input type="radio" name="tag" value="Politics">Politics</label>
+						<label class="radio-inline"><input type="radio" name="tag" value="Science">Science</label>
+						<label class="radio-inline"><input type="radio" name="tag" value="History">History</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Publish</button>
+					</div>
+				</div>
+			</form>
+			<!-- /container -->
 		</div>
 	</main>
 
 	<% include templates/footer.ejs %>
 
-	<!-- JavaScript -->
-	<% include templates/defaultScripts.ejs %>
-	<script src="/js/dashboard.js"></script>
+		<!-- JavaScript -->
+		<% include templates/defaultScripts.ejs %>
+			<script src="/js/dashboard.js"></script>
 
 </body>
 

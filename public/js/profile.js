@@ -1,4 +1,6 @@
-$('.alert').toggle(false);
+$(function () {
+    $('.alert').toggle(false);
+})
 
 $("#profileForm").submit(function (event) {
     // Stop form from submitting normally
