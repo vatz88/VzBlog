@@ -15,7 +15,7 @@ var makeArticleCard = function (data) {
         "<span class='articleTitle'>" + title + "  </span>" +
         "<span class='label label-info" + tag + "</span>" +
         "</div>" +
-        "<div class='panel-body text-capitalize'>" +
+        "<div class='panel-body'>" +
         content +
         "</div>" +
         "<div class='panel-footer'>" +
