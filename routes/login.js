@@ -46,7 +46,7 @@ router.post('/login', function (req, res) {
                             res.status(500).send(err.toString());
                         } else {
                             client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
-                                client.query('INSERT INTO "user_details" ("user_id") VALUES ($1)', [result.rows[0].user_id], function (err, result) {
+                                client.query('INSERT INTO "user_details" ("user_id", "first_name") VALUES ($1, $2)', [result.rows[0].user_id, newusername], function (err, result) {
                                     if (err) {
                                         res.status(500).send(err.toString());
                                     }

@@ -88,10 +88,10 @@ router.get('/api/searchBlog', function (req, res) {
             for (var i = 0, len = keywords.length; i < len; i++) {
                 query = query +
                     "(" +
-                    "SELECT articles.article_name, articles.article_content, user_details.first_name, user_details.last_name, user_details_user_id" +
-                    "FROM articles, user_details" +
+                    "SELECT * " +
+                    "FROM articles, user_details " +
                     "WHERE user_details.user_id = articles.user_id AND " +
-                    "( " +
+                    "(" +
                     "UPPER(articles.article_name) like UPPER('%" + keywords[i] + "%') OR " +
                     "UPPER(user_details.first_name) like UPPER('%" + keywords[i] + "%') OR " +
                     "UPPER(user_details.last_name) like UPPER('%" + keywords[i] + "%')" +
@@ -105,8 +105,9 @@ router.get('/api/searchBlog', function (req, res) {
                 done();
                 if (err) {
                     console.log('error running query', err);
+                } else {
+                    res.status(200).json(result.rows);
                 }
-                res.status(200).json(result.rows);
             });
         }
     });
