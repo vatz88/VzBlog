@@ -38,7 +38,7 @@ $('#searchBlog-btn').click(function (event) {
 
     $.get(api_url, function (data) {
         if (data.length === 0) {
-            $(".container").append('<h2>Sorry nothing found. Try searching by tag or author name.</h2>');
+            $(".container").append('<h2>Sorry nothing found. Try searching by tag, article title or author name.</h2>');
         } else {
             for (i = data.length - 1; i >= 0; i--) {
                 $(".container").append(makeArticleCard(data[i]));

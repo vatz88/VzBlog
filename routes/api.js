@@ -92,6 +92,7 @@ router.get('/api/searchBlog', function (req, res) {
                     "FROM articles, user_details " +
                     "WHERE user_details.user_id = articles.user_id AND " +
                     "(" +
+                    "UPPER(articles.tag) like UPPER('%" + keywords[i] + "%') OR " +
                     "UPPER(articles.article_name) like UPPER('%" + keywords[i] + "%') OR " +
                     "UPPER(user_details.first_name) like UPPER('%" + keywords[i] + "%') OR " +
                     "UPPER(user_details.last_name) like UPPER('%" + keywords[i] + "%')" +
