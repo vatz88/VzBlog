@@ -14,18 +14,7 @@ footer {
     background-color: #efefef;
 }
 
-pre {
-    font-family: sans-serif;
-    display: inherit;
-    padding: initial;
-    margin: inherit;
-    font-size: initial;
-    line-height: initial;
-    color: inherit;
-    word-break: initial;
-    word-wrap: initial;
-    background-color: inherit;
-    border: inherit;
-    border-radius: inherit;
+article {
+    overflow: hidden;
     white-space: pre-wrap;
 }

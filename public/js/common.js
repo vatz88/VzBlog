@@ -15,9 +15,9 @@ var makeArticleCard = function (data) {
         "<span class='articleTitle'>" + title + "  </span>" +
         "<span class='label label-info" + tag + "</span>" +
         "</div>" +
-        "<div class='panel-body'><pre>" +
+        "<div class='panel-body'><article>" +
         content +
-        "</pre></div>" +
+        "</article></div>" +
         "<div class='panel-footer'>" +
         "<div class='row'>" +
         "<div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>Article by " + "<em class='text-capitalize'>" + author + "</em>" + "</div>" +
@@ -43,6 +43,7 @@ $('#searchBlog-btn').click(function (event) {
             for (i = data.length - 1; i >= 0; i--) {
                 $(".container").append(makeArticleCard(data[i]));
             }
+            $('article').readmore();
         }
     });
 });

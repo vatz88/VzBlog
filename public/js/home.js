@@ -5,5 +5,6 @@ $(function () {
         for (i = data.length - 1; i >= 0; i--) {
             $(".container").append(makeArticleCard(data[i]));
         }
+        $('article').readmore();
     });
 });
