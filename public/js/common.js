@@ -32,7 +32,12 @@ $('#searchBlog-form').submit(function (event) {
 
     event.preventDefault();
 
+    // preloader
+    $(".container").hide();
+    $('#loader').show();
+
     $(".container").html('');
+    $(".container").addClass('animate-bottom');
 
     var api_url = "/api/searchBlog/?keywords=" + $('#searchBlog-value').val();
 
@@ -43,7 +48,9 @@ $('#searchBlog-form').submit(function (event) {
             for (i = data.length - 1; i >= 0; i--) {
                 $(".container").append(makeArticleCard(data[i]));
             }
-            $('article').readmore();
         }
+        $('#loader').hide();
+        $(".container").show();
+        $('article').readmore();
     });
 });
