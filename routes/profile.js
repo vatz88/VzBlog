@@ -46,22 +46,26 @@ router.post('/profile', function (req, res) {
             if (err) {
                 res.status(500).send(err.toString());
             } else {
-                client.query('UPDATE "user_details" SET "first_name" = $1, "last_name" = $2, "bio" = $3 WHERE "user_id" = $4', [xssFilters.inHTMLData(req.body.first_name), xssFilters.inHTMLData(req.body.last_name), xssFilters.inHTMLData(req.body.bio), xssFilters.inHTMLData(req.session.auth.userId)], function (err, result) {
-                    if (err) {
-                        res.status(500).send(err.toString());
-                    }
-                    else {
-                        client.query('UPDATE "user" SET "username" = $1 WHERE "user_id" = $2', [xssFilters.inHTMLData(req.body.username), xssFilters.inHTMLData(req.session.auth.userId)], function (err, result) {
-                            done();
-                            if (err) {
-                                res.status(500).send(err.toString());
-                            } else {
-                                req.session.auth.username = req.body.username;
-                                res.status(200).send("Your profile has been updated.");
-                            }
-                        });
-                    }
-                });
+                if (req.body.first_name === "" || req.body.last_name === "" || req.body.username === "") {
+                    res.status(200).send("Please give all required fields");
+                } else {
+                    client.query('UPDATE "user_details" SET "first_name" = $1, "last_name" = $2, "bio" = $3 WHERE "user_id" = $4', [xssFilters.inHTMLData(req.body.first_name), xssFilters.inHTMLData(req.body.last_name), xssFilters.inHTMLData(req.body.bio), xssFilters.inHTMLData(req.session.auth.userId)], function (err, result) {
+                        if (err) {
+                            res.status(500).send(err.toString());
+                        }
+                        else {
+                            client.query('UPDATE "user" SET "username" = $1 WHERE "user_id" = $2', [xssFilters.inHTMLData(req.body.username), xssFilters.inHTMLData(req.session.auth.userId)], function (err, result) {
+                                done();
+                                if (err) {
+                                    res.status(500).send(err.toString());
+                                } else {
+                                    req.session.auth.username = req.body.username;
+                                    res.status(200).send("Your profile has been updated.");
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
     } else {
