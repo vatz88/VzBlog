@@ -47,6 +47,7 @@ router.post('/profile', function (req, res) {
                 res.status(500).send(err.toString());
             } else {
                 if (req.body.first_name === "" || req.body.last_name === "" || req.body.username === "") {
+                    done();
                     res.status(200).send("Please give all required fields");
                 } else {
                     client.query('UPDATE "user_details" SET "first_name" = $1, "last_name" = $2, "bio" = $3 WHERE "user_id" = $4', [xssFilters.inHTMLData(req.body.first_name), xssFilters.inHTMLData(req.body.last_name), xssFilters.inHTMLData(req.body.bio), xssFilters.inHTMLData(req.session.auth.userId)], function (err, result) {

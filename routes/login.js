@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var crypto = require('crypto');
 var pool = app.get('pool');
 var xssFilters = require('xss-filters');
+var regex = require('regex-email');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -17,51 +18,59 @@ router.post('/login', function (req, res) {
     var email = req.body.email;
     var password = hash(req.body.password);
 
-    pool.connect(function (err, client, done) {
-        if (err) {
-            res.status(500).send(err.toString());
-        }
-        else {
-            client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
-                if (err) {
-                    res.status(500).send(err.toString());
-                }
-                if (result.rows.length == 1) {
-                    // user exist
-                    if (password == result.rows[0].password) {
-                        // set session
-                        req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
-                        res.redirect('/');
-                    } else {
-                        res.locals.msg = "Email id / Password incorrect. Please try again.";
-                        res.status(403).render('login', {
-                            pageTitle: "login",
-                            userName: false
-                        });
+    if (!(regex.test(email) && req.body.password >= 4)) {
+        res.locals.msg = "Please give proper Email id and password";
+        res.render('login', {
+            pageTitle: "login",
+            userName: false
+        });
+    } else {
+        pool.connect(function (err, client, done) {
+            if (err) {
+                res.status(500).send(err.toString());
+            }
+            else {
+                client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
+                    if (err) {
+                        res.status(500).send(err.toString());
                     }
-                } else if (result.rows.length == 0) {
-                    // create user
-                    var newusername = email.split('@')[0];
-                    client.query('INSERT INTO "user" ("email_id", "password", "username") VALUES ($1, $2, $3)', [xssFilters.inHTMLData(email), xssFilters.inHTMLData(password), xssFilters.inHTMLData(newusername)], function (err, result) {
-                        if (err) {
-                            res.status(500).send(err.toString());
+                    if (result.rows.length == 1) {
+                        // user exist
+                        if (password == result.rows[0].password) {
+                            // set session
+                            req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
+                            res.redirect('/');
                         } else {
-                            client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
-                                client.query('INSERT INTO "user_details" ("user_id", "first_name") VALUES ($1, $2)', [result.rows[0].user_id, xssFilters.inHTMLData(newusername)], function (err, result) {
-                                    if (err) {
-                                        res.status(500).send(err.toString());
-                                    }
-                                });
-                                req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
-                                res.redirect('/profile');
+                            res.locals.msg = "Email id / Password incorrect. Please try again.";
+                            res.status(403).render('login', {
+                                pageTitle: "login",
+                                userName: false
                             });
                         }
-                    });
-                }
-                done();
-            });
-        }
-    });
+                    } else if (result.rows.length == 0) {
+                        // create user
+                        var newusername = email.split('@')[0];
+                        client.query('INSERT INTO "user" ("email_id", "password", "username") VALUES ($1, $2, $3)', [xssFilters.inHTMLData(email), xssFilters.inHTMLData(password), xssFilters.inHTMLData(newusername)], function (err, result) {
+                            if (err) {
+                                res.status(500).send(err.toString());
+                            } else {
+                                client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
+                                    client.query('INSERT INTO "user_details" ("user_id", "first_name") VALUES ($1, $2)', [result.rows[0].user_id, xssFilters.inHTMLData(newusername)], function (err, result) {
+                                        if (err) {
+                                            res.status(500).send(err.toString());
+                                        }
+                                    });
+                                    req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
+                                    res.redirect('/profile');
+                                });
+                            }
+                        });
+                    }
+                    done();
+                });
+            }
+        });
+    }
 });
 
 router.get('/login', function (req, res) {

@@ -25,6 +25,7 @@
     "express-session": "^1.14.2",
     "morgan": "^1.7.0",
     "pg": "^6.1.0",
+    "regex-email": "^1.0.2",
     "xss-filters": "^1.2.7"
   }
 }
