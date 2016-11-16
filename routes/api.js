@@ -92,10 +92,10 @@ router.get('/api/searchBlog', function(req, res) {
                     "FROM articles, user_details " +
                     "WHERE user_details.user_id = articles.user_id AND " +
                     "(" +
-                    "UPPER(articles.tag) like UPPER('%" + keywords[i] + "%') OR " +
-                    "UPPER(articles.article_name) like UPPER('%" + keywords[i] + "%') OR " +
-                    "UPPER(user_details.first_name) like UPPER('%" + keywords[i] + "%') OR " +
-                    "UPPER(user_details.last_name) like UPPER('%" + keywords[i] + "%')" +
+                    "UPPER(articles.tag) like UPPER('%" + encodeURIComponent(keywords[i]) + "%') OR " +
+                    "UPPER(articles.article_name) like UPPER('%" + encodeURIComponent(keywords[i]) + "%') OR " +
+                    "UPPER(user_details.first_name) like UPPER('%" + encodeURIComponent(keywords[i]) + "%') OR " +
+                    "UPPER(user_details.last_name) like UPPER('%" + encodeURIComponent(keywords[i]) + "%')" +
                     ")" +
                     ")";
                 if (i != len - 1) {
@@ -105,7 +105,7 @@ router.get('/api/searchBlog', function(req, res) {
             client.query(query, function(err, result) {
                 done();
                 if (err) {
-                    console.log('error running query', err);
+                    res.status(500).send(err.toString());
                 } else {
                     res.status(200).json(result.rows);
                 }
