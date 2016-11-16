@@ -19,7 +19,7 @@ router.post('/login', function (req, res) {
     var password = hash(req.body.password);
 
     if (!(regex.test(email) && req.body.password.length >= 4)) {
-        res.locals.msg = "Please give proper Email id and password";
+        res.locals.msg = "Please give a valid email id and password";
         res.render('login', {
             pageTitle: "login",
             userName: false
