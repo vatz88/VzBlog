@@ -13,7 +13,7 @@ var makeArticleCard = function (data) {
     }
     var date = data.time.split('T')[0];
     var formatedDate = date.split('-'); // yyyy-mm-dd
-    formatedDate = formatedDate[2].toString() + " " + monthNames[parseInt(formatedDate[1])] + " " + formatedDate[0].toString();
+    formatedDate = formatedDate[2].toString() + " " + monthNames[parseInt(formatedDate[1]) - 1] + " " + formatedDate[0].toString();
 
     var atricleTemplate = "<div class='panel panel-default'>" +
         "<div class='panel-heading text-uppercase'>" +
