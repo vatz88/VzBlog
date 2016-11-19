@@ -1,3 +1,5 @@
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 var makeArticleCard = function (data) {
 
     var title = data.article_name;
@@ -9,6 +11,9 @@ var makeArticleCard = function (data) {
     } else {
         tag = "hidden'>";
     }
+    var date = data.time.split('T')[0];
+    var formatedDate = date.split('-'); // yyyy-mm-dd
+    formatedDate = formatedDate[2].toString() + " " + monthNames[parseInt(formatedDate[1])] + " " + formatedDate[0].toString();
 
     var atricleTemplate = "<div class='panel panel-default'>" +
         "<div class='panel-heading text-uppercase'>" +
@@ -20,7 +25,8 @@ var makeArticleCard = function (data) {
         "</article></div>" +
         "<div class='panel-footer'>" +
         "<div class='row'>" +
-        "<div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>Article by " + "<em class='text-capitalize'>" + author + "</em>" + "</div>" +
+        "<div class='col-sm-6 col-md-6 col-lg-6 col-xs-6'>Article by " + "<em class='text-capitalize'>" + author + "</em>" + "</div>" +
+        "<div class='col-sm-6 col-md-6 col-lg-6 col-xs-6 text-right'>Published on " + "<em>" + formatedDate + "</em>" + "</div>" +
         "</div>" +
         "</div>" +
         "</div>";

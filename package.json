@@ -27,5 +27,11 @@
     "pg": "^6.1.0",
     "regex-email": "^1.0.2",
     "xss-filters": "^1.2.7"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [
+    "VaTz88",
+    "Vatsal",
+    "VzBlog"
+  ]
 }
