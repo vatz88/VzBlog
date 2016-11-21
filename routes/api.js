@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
 var pool = app.get('pool');
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
 
 // routes
 
@@ -115,6 +118,30 @@ router.get('/api/searchBlog', function (req, res) {
             });
         }
     });
+});
+
+// delete article
+router.post('/api/article/delete', function (req, res) {
+    if (req.session && req.session.auth && req.session.auth.userId) {
+        pool.connect(function (err, client, done) {
+            if (err) {
+                res.status(500).send(err.toString());
+            }
+            else {
+                client.query('DELETE FROM "articles" WHERE (("article_id" = $1) AND "user_id" = $2)', [req.body.article_id, req.session.auth.userId], function (err, result) {
+                    done();
+                    if (err) {
+                        res.status(500).send(err.toString());
+                    } else {
+                        res.status(200).send("Article successfully deleted");
+                    }
+                });
+            }
+        });
+    }
+    else {
+        res.sendStatus(401);
+    }
 });
 
 module.exports = router;

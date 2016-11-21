@@ -24,7 +24,6 @@ $("#newArticle-form").submit(function (event) {
     $(formData).each(function (index, obj) {
         sendData[obj.name] = obj.value;
     });
-    console.log(sendData);
 
     // Send the data using post
     var posting = $.post(url, sendData);
@@ -35,5 +34,30 @@ $("#newArticle-form").submit(function (event) {
         $('.alert').slideToggle();
         $('#alert-msg').text(data);
         $('#newArticle-form').trigger("reset");
+    });
+});
+
+// Delete artilce
+$(".removeArticleBtn").click(function () {
+
+    var url = "/api/article/delete";
+
+    var btn_value = $(this).val();
+    var sendData = {
+        "article_id": btn_value
+    };
+
+    // Send the data using post
+    var posting = $.post(url, sendData);
+
+    // Put the results in a div
+    posting.done(function (data) {
+        $('#newArticle-form').toggle(false);
+        $('.alert').slideToggle();
+        $('#alert-msg').text(data);
+        $('#' + btn_value).remove();
+    });
+    posting.fail(function (data) {
+        location.reload();
     });
 });

@@ -40,8 +40,15 @@
 					<div>
 						<ul class="list-group">
 							<% allArticleTitle.forEach(function(item) { %>
-								<li class="list-group-item">
-									<%= item.article_name %>
+								<li class="list-group-item" id="<%= item.article_id %>">
+									<div class="row">
+										<span class="col-sm-11 col-md-11 col-lg-11"><%= item.article_name %></span>
+										<span class="col-sm-1 col-md-1 col-lg-1">
+											<button title="Remove <%= item.article_name %>" type="button" aria-label="Remove article" class="btn btn-default btn-sm removeArticleBtn" value="<%= item.article_id %>">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+										</button>
+										</span>
+									</div>
 								</li>
 								<% }); %>
 						</ul>
