@@ -5,7 +5,9 @@ var bodyParser = require('body-parser');
 var xssFilters = require('xss-filters');
 
 router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 router.get('/dashboard', function (req, res) {
     if (req.session && req.session.auth && req.session.auth.userId) {
@@ -13,8 +15,7 @@ router.get('/dashboard', function (req, res) {
             if (err) {
                 res.status(500).send(err.toString());
                 done();
-            }
-            else {
+            } else {
                 client.query('SELECT * FROM "articles" WHERE user_id = $1', [req.session.auth.userId], function (err, result) {
                     done();
                     if (err) {
@@ -55,8 +56,7 @@ router.post('/dashboard', function (req, res) {
                         done();
                         if (err) {
                             res.status(500).send(err.toString());
-                        }
-                        else {
+                        } else {
                             res.status(200).send("Article successfully published.");
                         }
                     });

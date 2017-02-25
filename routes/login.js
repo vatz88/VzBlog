@@ -7,7 +7,9 @@ var xssFilters = require('xss-filters');
 var regex = require('regex-email');
 
 router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 function hash(password) {
     var key = crypto.pbkdf2Sync(password, 'VzSalt', 10000, 512, 'sha512');
@@ -28,8 +30,7 @@ router.post('/login', function (req, res) {
         pool.connect(function (err, client, done) {
             if (err) {
                 res.status(500).send(err.toString());
-            }
-            else {
+            } else {
                 client.query('SELECT * FROM "user" WHERE UPPER(email_id) = UPPER($1)', [email], function (err, result) {
                     if (err) {
                         res.status(500).send(err.toString());
@@ -38,7 +39,10 @@ router.post('/login', function (req, res) {
                         // user exist
                         if (password == result.rows[0].password) {
                             // set session
-                            req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
+                            req.session.auth = {
+                                userId: result.rows[0].user_id,
+                                username: result.rows[0].username
+                            };
                             res.redirect('/');
                         } else {
                             res.locals.msg = "Email id / Password incorrect. Please try again.";
@@ -48,7 +52,7 @@ router.post('/login', function (req, res) {
                             });
                         }
                     } else if (result.rows.length == 0) {
-                        // create user
+                        // create new user
                         var newusername = email.split('@')[0];
                         client.query('INSERT INTO "user" ("email_id", "password", "username") VALUES ($1, $2, $3)', [xssFilters.inHTMLData(email), xssFilters.inHTMLData(password), xssFilters.inHTMLData(newusername)], function (err, result) {
                             if (err) {
@@ -60,7 +64,10 @@ router.post('/login', function (req, res) {
                                             res.status(500).send(err.toString());
                                         }
                                     });
-                                    req.session.auth = { userId: result.rows[0].user_id, username: result.rows[0].username };
+                                    req.session.auth = {
+                                        userId: result.rows[0].user_id,
+                                        username: result.rows[0].username
+                                    };
                                     res.redirect('/profile');
                                 });
                             }

@@ -18,6 +18,7 @@ var makeArticleCard = function (data) {
     var atricleTemplate = "<div class='panel panel-default'>" +
         "<div class='panel-heading text-uppercase'>" +
         "<span class='articleTitle'>" + title + "  </span>" +
+        "<br>" +
         "<span class='label label-info" + tag + "</span>" +
         "</div>" +
         "<div class='panel-body'><article>" +
@@ -32,7 +33,7 @@ var makeArticleCard = function (data) {
         "</div>";
 
     return atricleTemplate;
-}
+};
 
 $('#searchBlog-form').submit(function (event) {
 

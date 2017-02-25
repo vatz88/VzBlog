@@ -9,10 +9,10 @@ app.use(morgan('combined'));
 
 // database configuration
 var config = {
-  user: 'vatz88',
-  host: 'db.imad.hasura-app.io',
-  database: 'vatz88',
-  password: process.env.DB_PASSWORD,
+  user: process.env.DB_USER || 'vatz88',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_DATABASE || 'VzBlog',
+  password: process.env.DB_PASSWORD || '8896',
   port: '5432'
 };
 
@@ -24,7 +24,9 @@ app.set('pool', pool);
 
 app.use(session({
   secret: 'VzSecret',
-  cookie: { maxAge: 1000 * 60 * 60 } // 60 min
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  } // 1 day
 }));
 
 app.use(express.static('public'));
@@ -34,7 +36,7 @@ app.use(require('./routes/home'));
 app.use(require('./routes/profile'));
 app.use(require('./routes/dashboard'));
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 app.listen(port, function () {
   console.log("VzBlog running on port: " + port);
