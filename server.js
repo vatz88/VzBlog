@@ -3,6 +3,7 @@ var morgan = require('morgan');
 var path = require('path');
 var session = require('express-session');
 var pg = require('pg');
+var httpsRedirect = require('express-https-redirect');
 
 app = express();
 app.use(morgan('combined'));
@@ -29,6 +30,7 @@ app.use(session({
   } // 1 day
 }));
 
+app.use('/', httpsRedirect());
 app.use(express.static('public'));
 app.use(require('./routes/api'));
 app.use(require('./routes/login'));
