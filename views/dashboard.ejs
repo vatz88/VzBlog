@@ -34,7 +34,7 @@
 									<div class="row">
 										<span class="col-sm-11 col-md-11 col-lg-11"><%= item.article_name %></span>
 										<span class="col-sm-1 col-md-1 col-lg-1">
-											<button title="Remove <%= item.article_name %>" type="button" aria-label="Remove article" class="btn btn-default btn-sm removeArticleBtn" value="<%= item.article_id %>">
+											<button disabled title="Remove <%= item.article_name %>" type="button" aria-label="Remove article" class="btn btn-default btn-sm removeArticleBtn" value="<%= item.article_id %>">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</button>
 										</span>
@@ -47,7 +47,7 @@
 				<div class="panel-footer">
 					<div class="row">
 						<span class="col-sm-8">Total articles published by you <span class="badge"><%= totalArticles %></span></span>
-						<span class="col-sm-4 text-right"><button id="newArticle-btn" class="btn btn-primary" type="button">New article</button></span>
+						<span class="col-sm-4 text-right"><button disabled id="newArticle-btn" class="btn btn-primary" type="button">New article</button></span>
 					</div>
 				</div>
 				<!-- /panel -->
@@ -83,7 +83,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-default">Publish</button>
+						<!-- <button type="submit" class="btn btn-default">Publish</button> -->
 					</div>
 				</div>
 			</form>
